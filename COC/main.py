@@ -66,16 +66,16 @@ class MiniClans:
             action = self.ui.handle_build_click(event.pos)
             if action == "ATTACK":
                 self.mode = GameMode.ATTACK
-                # Send ready signal to opponent
+                
                 self.network.send_data({"action": "ready_to_attack"})
             elif action and action.startswith("BUILD_"):
                 building_type = action.split("_")[1]
                 self.game_state.start_placing_building(building_type)
             elif self.game_state.placing_building:
-                # Place building on grid
+                
                 grid_pos = self.ui.screen_to_grid(event.pos)
                 if self.game_state.place_building(grid_pos):
-                    # Send building placement to opponent
+                    
                     self.network.send_data({
                         "action": "place_building",
                         "building": self.game_state.player_base.buildings[-1].to_dict()
@@ -83,10 +83,10 @@ class MiniClans:
                     
     def handle_attack_events(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:  # Left click to deploy troops
+            if event.button == 1:  
                 grid_pos = self.ui.screen_to_grid(event.pos)
                 if self.game_state.deploy_troop(grid_pos):
-                    # Send troop deployment to opponent
+                    
                     self.network.send_data({
                         "action": "deploy_troop",
                         "position": grid_pos,
@@ -94,16 +94,16 @@ class MiniClans:
                     })
                     
     def update(self, dt):
-        # Update game state
+        
         self.game_state.update(dt)
         
-        # Check for network messages
+        
         if self.connected or self.is_host:
             data = self.network.receive_data()
             if data:
                 self.process_network_data(data)
                 
-        # Check if client connected (for host)
+        
         if self.is_host and not self.connected and self.mode == GameMode.WAITING:
             if self.network.check_connection():
                 self.connected = True
@@ -113,16 +113,16 @@ class MiniClans:
     def process_network_data(self, data):
         action = data.get("action")
         if action == "place_building":
-            # Opponent placed a building
+            
             building_data = data.get("building")
             self.game_state.opponent_base.add_building_from_dict(building_data)
         elif action == "deploy_troop":
-            # Opponent deployed a troop
+            
             pos = data.get("position")
             troop_type = data.get("troop_type")
             self.game_state.add_opponent_troop(pos, troop_type)
         elif action == "ready_to_attack":
-            # Opponent ready for attack phase
+            
             pass
             
     def render(self):
@@ -155,4 +155,5 @@ class MiniClans:
 
 if __name__ == "__main__":
     game = MiniClans()
+
     game.run()
