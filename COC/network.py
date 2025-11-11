@@ -24,7 +24,7 @@ class NetworkManager:
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.socket.bind((DEFAULT_HOST, DEFAULT_PORT))
         self.socket.listen(1)
-        self.socket.settimeout(0.1)  # Non-blocking with timeout
+        self.socket.settimeout(0.1)  
         print(f"Server started on {DEFAULT_HOST}:{DEFAULT_PORT}")
         
     def check_connection(self):
@@ -37,7 +37,7 @@ class NetworkManager:
                 self.connected = True
                 print(f"Client connected from {addr}")
                 
-                # Start listening thread
+                
                 thread = threading.Thread(target=self._listen_thread, daemon=True)
                 thread.start()
                 return True
@@ -55,7 +55,7 @@ class NetworkManager:
             self.connected = True
             print(f"Connected to {host_ip}:{DEFAULT_PORT}")
             
-            # Start listening thread
+            
             thread = threading.Thread(target=self._listen_thread, daemon=True)
             thread.start()
             return True
@@ -76,7 +76,7 @@ class NetworkManager:
                     
                 buffer += data
                 
-                # Process complete JSON messages (separated by newlines)
+                
                 while '\n' in buffer:
                     line, buffer = buffer.split('\n', 1)
                     if line.strip():
@@ -129,4 +129,5 @@ class NetworkManager:
             try:
                 self.socket.close()
             except:
+
                 pass
