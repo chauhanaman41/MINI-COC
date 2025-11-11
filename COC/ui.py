@@ -35,14 +35,14 @@ class UI:
         self.small_font = pygame.font.Font(None, 24)
         self.title_font = pygame.font.Font(None, 64)
         
-        # Menu buttons
+        
         self.menu_buttons = [
             Button(450, 300, 300, 60, "HOST GAME", "HOST"),
             Button(450, 380, 300, 60, "JOIN GAME", "JOIN"),
             Button(450, 460, 300, 60, "QUIT", "QUIT")
         ]
         
-        # Build mode buttons
+        
         self.build_buttons = [
             Button(850, 50, 150, 40, "Gold Mine", "BUILD_GOLDMINE"),
             Button(850, 100, 150, 40, "Elixir Coll.", "BUILD_ELIXIR"),
@@ -51,7 +51,7 @@ class UI:
             Button(850, 300, 150, 40, "ATTACK!", "ATTACK")
         ]
         
-        # Attack mode buttons
+        
         self.troop_buttons = [
             Button(850, 50, 150, 40, "Barbarian", "TROOP_BARBARIAN"),
             Button(850, 100, 150, 40, "Archer", "TROOP_ARCHER")
@@ -80,14 +80,13 @@ class UI:
         
     def draw_build_mode(self, game_state):
         """Draw build mode interface"""
-        # Draw grid
+        
         self.draw_grid()
         
-        # Draw player buildings
+     
         for building in game_state.player_base.buildings:
             self.draw_building(building, (0, 255, 0))
             
-        # Draw placing preview
         if game_state.placing_building:
             mouse_pos = pygame.mouse.get_pos()
             grid_pos = self.screen_to_grid(mouse_pos)
@@ -95,16 +94,16 @@ class UI:
             color = BUILDINGS[game_state.placing_building]["color"]
             self.draw_building_preview(grid_pos, size, color)
             
-        # Draw UI panel
+        
         self.draw_ui_panel(game_state.player_base)
         
-        # Draw build buttons
+        
         mouse_pos = pygame.mouse.get_pos()
         for button in self.build_buttons:
             button.check_hover(mouse_pos)
             button.draw(self.screen, self.small_font)
             
-        # Draw building costs
+        
         y_offset = 50
         for button in self.build_buttons[:4]:
             building_type = button.action.split("_")[1]
@@ -116,31 +115,29 @@ class UI:
             
     def draw_attack_mode(self, game_state):
         """Draw attack mode interface"""
-        # Draw grid
+       
         self.draw_grid()
         
-        # Draw opponent buildings
         for building in game_state.opponent_base.buildings:
             self.draw_building(building, (255, 0, 0))
             
-        # Draw player troops
         for troop in game_state.player_troops:
             self.draw_troop(troop, (0, 255, 0))
             
-        # Draw opponent troops
+        
         for troop in game_state.opponent_troops:
             self.draw_troop(troop, (255, 0, 0))
             
-        # Draw UI panel
+        
         self.draw_ui_panel(game_state.player_base)
         
-        # Draw troop selection buttons
+        
         mouse_pos = pygame.mouse.get_pos()
         for button in self.troop_buttons:
             button.check_hover(mouse_pos)
             button.draw(self.screen, self.small_font)
             
-        # Draw troop costs
+        
         y_offset = 50
         for button in self.troop_buttons:
             troop_type = button.action.split("_")[1]
@@ -150,7 +147,6 @@ class UI:
             self.screen.blit(text_surf, (1010, y_offset + 10))
             y_offset += 50
             
-        # Draw instructions
         inst_text = self.small_font.render("Click to deploy troops", True, UI_TEXT_COLOR)
         self.screen.blit(inst_text, (850, 200))
             
@@ -172,12 +168,10 @@ class UI:
         y = GRID_OFFSET_Y + building.position[1] * GRID_SIZE
         size = building.stats["size"] * GRID_SIZE
         
-        # Draw building
         rect = pygame.Rect(x + 2, y + 2, size - 4, size - 4)
         pygame.draw.rect(self.screen, building.stats["color"], rect)
         pygame.draw.rect(self.screen, outline_color, rect, 2)
         
-        # Draw HP bar
         hp_percent = building.hp / building.max_hp
         hp_bar_width = size - 8
         hp_bar_height = 4
@@ -187,7 +181,6 @@ class UI:
         pygame.draw.rect(self.screen, (0, 255, 0), 
                         pygame.Rect(x + 4, y - 8, int(hp_bar_width * hp_percent), hp_bar_height))
                         
-        # Draw level
         level_text = self.small_font.render(str(building.level), True, (255, 255, 255))
         level_rect = level_text.get_rect(center=(x + size // 2, y + size // 2))
         self.screen.blit(level_text, level_rect)
@@ -200,7 +193,6 @@ class UI:
         
         rect = pygame.Rect(x + 2, y + 2, pixel_size - 4, pixel_size - 4)
         
-        # Draw semi-transparent preview
         s = pygame.Surface((pixel_size - 4, pixel_size - 4))
         s.set_alpha(128)
         s.fill(color)
@@ -212,11 +204,9 @@ class UI:
         x = GRID_OFFSET_X + int(troop.position[0] * GRID_SIZE)
         y = GRID_OFFSET_Y + int(troop.position[1] * GRID_SIZE)
         
-        # Draw troop as circle
         pygame.draw.circle(self.screen, troop.stats["color"], (x, y), 8)
         pygame.draw.circle(self.screen, color, (x, y), 8, 2)
         
-        # Draw HP bar
         hp_percent = troop.hp / troop.stats["hp"]
         hp_bar_width = 16
         hp_bar_height = 3
@@ -232,18 +222,15 @@ class UI:
         pygame.draw.rect(self.screen, UI_BG_COLOR, panel_rect)
         pygame.draw.rect(self.screen, UI_TEXT_COLOR, panel_rect, 2)
         
-        # Draw resources
         gold_text = self.font.render(f"Gold: {int(base.gold)}", True, GOLD_MINE_COLOR)
         self.screen.blit(gold_text, (870, 420))
         
         elixir_text = self.font.render(f"Elixir: {int(base.elixir)}", True, ELIXIR_COLLECTOR_COLOR)
         self.screen.blit(elixir_text, (870, 460))
         
-        # Draw building count
         building_text = self.small_font.render(f"Buildings: {len(base.buildings)}", True, UI_TEXT_COLOR)
         self.screen.blit(building_text, (870, 520))
         
-        # Draw tips
         tip_lines = [
             "Build gold mines and",
             "elixir collectors to",
@@ -293,6 +280,6 @@ class UI:
         
     def get_ip_input(self):
         """Get IP address input from user (simple version)"""
-        # For simplicity, return localhost
-        # In a full version, you'd show an input dialog
+        
+
         return DEFAULT_HOST
