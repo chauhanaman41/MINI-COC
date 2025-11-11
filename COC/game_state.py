@@ -10,7 +10,7 @@ from config import *
 class Building:
     def __init__(self, building_type, position, level=1):
         self.type = building_type
-        self.position = position  # (grid_x, grid_y)
+        self.position = position  
         self.level = level
         self.hp = BUILDINGS[building_type]["hp"]
         self.max_hp = self.hp
@@ -45,27 +45,27 @@ class Building:
 class Troop:
     def __init__(self, troop_type, position):
         self.type = troop_type
-        self.position = list(position)  # [x, y] in grid coordinates
+        self.position = list(position) 
         self.stats = TROOPS[troop_type].copy()
         self.hp = self.stats["hp"]
         self.target = None
         
     def update(self, dt, buildings):
         if not self.target or self.target.hp <= 0:
-            # Find nearest building
+          
             self.target = self.find_nearest_building(buildings)
             
         if self.target:
-            # Move towards target
+            
             dx = self.target.position[0] - self.position[0]
             dy = self.target.position[1] - self.position[1]
             dist = (dx**2 + dy**2)**0.5
             
             if dist <= self.stats["range"]:
-                # Attack
+                
                 self.attack(self.target, dt)
             else:
-                # Move closer
+                
                 if dist > 0:
                     self.position[0] += (dx / dist) * self.stats["speed"] * dt
                     self.position[1] += (dy / dist) * self.stats["speed"] * dt
@@ -84,7 +84,7 @@ class Troop:
         return nearest
         
     def attack(self, target, dt):
-        # Simple attack (could add attack cooldown)
+        
         target.take_damage(self.stats["damage"] * dt)
         
     def take_damage(self, damage):
@@ -98,7 +98,7 @@ class Base:
         self.elixir = STARTING_ELIXIR
         self.last_resource_update = time.time()
         
-        # Add starting Town Hall
+        
         self.add_building(Building("TOWNHALL", (7, 7)))
         
     def add_building(self, building):
@@ -112,7 +112,7 @@ class Base:
         dt = current_time - self.last_resource_update
         self.last_resource_update = current_time
         
-        # Generate resources from buildings
+        
         for building in self.buildings:
             if building.type == "GOLDMINE" and building.hp > 0:
                 self.gold += building.stats["production_rate"] * dt
@@ -132,13 +132,13 @@ class Base:
         return False
         
     def can_place_building(self, position, size):
-        # Check if position is within grid
+        
         if position[0] < 0 or position[0] + size > GRID_WIDTH:
             return False
         if position[1] < 0 or position[1] + size > GRID_HEIGHT:
             return False
             
-        # Check if overlaps with existing buildings
+        
         for building in self.buildings:
             b_size = building.stats["size"]
             if self.rectangles_overlap(
@@ -208,17 +208,17 @@ class GameState:
         self.opponent_troops.append(troop)
         
     def update(self, dt):
-        # Update resources
+        
         self.player_base.update_resources()
         self.opponent_base.update_resources()
         
-        # Update player troops attacking opponent base
+        
         for troop in self.player_troops[:]:
             troop.update(dt, self.opponent_base.buildings)
             if troop.hp <= 0:
                 self.player_troops.remove(troop)
                 
-        # Update opponent troops attacking player base
+        
         for troop in self.opponent_troops[:]:
             troop.update(dt, self.player_base.buildings)
             if troop.hp <= 0:
@@ -240,4 +240,5 @@ class GameState:
             self.opponent_base = Base.from_dict(data["opponent_base"])
             return True
         except FileNotFoundError:
+
             return False
