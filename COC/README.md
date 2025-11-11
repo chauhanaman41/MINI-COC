@@ -1,8 +1,8 @@
-# 🏰 Mini Clans - 2-Player Strategy Game
+# Mini Clans - 2-Player Strategy Game
 
 A 2D base-building and attack strategy game inspired by Clash of Clans, built entirely in Python for local/LAN multiplayer.
 
-## 🎮 Features
+##  Features
 
 - **Base Building**: Place and upgrade buildings on a grid
 - **Resource Management**: Generate gold and elixir over time
@@ -11,12 +11,12 @@ A 2D base-building and attack strategy game inspired by Clash of Clans, built en
 - **Real-time Combat**: Troops automatically target and destroy buildings
 - **Save/Load**: Persistent game state
 
-## 📋 Requirements
+## Requirements
 
 - Python 3.7+
 - Pygame library
 
-## 🚀 Installation
+##  Installation
 
 1. Install Python (if not already installed)
 2. Install Pygame:
@@ -33,7 +33,7 @@ pip install pygame
 
 4. Place all files in the same directory
 
-## 🎯 How to Play
+## How to Play
 
 ### Starting a Game
 
@@ -89,12 +89,12 @@ pip install pygame
 | Barbarian | 50 Elixir | 100 | 15 | Melee (1) | Fast (2.0) |
 | Archer | 75 Elixir | 50 | 10 | Ranged (4) | Medium (1.5) |
 
-## 🎨 Game Controls
+## Game Controls
 
 - **Left Click**: Place buildings, deploy troops, click buttons
 - **Mouse**: Move cursor to see building previews
 
-## 🔧 Configuration
+## Configuration
 
 Edit `config.py` to customize:
 
@@ -105,7 +105,7 @@ Edit `config.py` to customize:
 - Resource generation rates
 - Network settings (IP and port)
 
-## 🌐 Network Setup
+##  Network Setup
 
 ### Same Computer (Localhost)
 - Default setting works automatically
@@ -119,7 +119,7 @@ Edit `config.py` to customize:
 3. Ensure both computers are on same network
 4. Check firewall allows port 5555
 
-## 📁 File Structure
+## File Structure
 
 ```
 mini-clans/
@@ -131,7 +131,7 @@ mini-clans/
 └── savegame.json    # Auto-generated save file
 ```
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 **Connection Failed**
 - Check both players are on same network
@@ -148,7 +148,7 @@ mini-clans/
 - Ensure position doesn't overlap existing buildings
 - Make sure building fits within grid
 
-## 🎓 Learning Resources
+##  Learning Resources
 
 This game demonstrates:
 - **Pygame**: 2D graphics and game loops
@@ -157,7 +157,7 @@ This game demonstrates:
 - **Object-Oriented Design**: Classes for game entities
 - **JSON Serialization**: Save/load game state
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 - [ ] AI opponent for single-player
 - [ ] More building types (barracks, walls, traps)
@@ -169,7 +169,7 @@ This game demonstrates:
 - [ ] Tournament mode
 - [ ] Cloud saves
 
-## 📝 Code Structure
+## Code Structure
 
 ### Main Components
 
@@ -180,7 +180,7 @@ This game demonstrates:
 5. **NetworkManager**: Handles multiplayer
 6. **UI**: Rendering and user interface
 
-## 🤝 Contributing
+## Contributing
 
 Ideas for improvements:
 - Add new building types
@@ -189,15 +189,16 @@ Ideas for improvements:
 - Add animations
 - Create better networking with lobby system
 
-## 📜 License
+##  License
 
 Free to use and modify for educational purposes.
 
-## 🎉 Credits
+##  Credits
 
 Inspired by Clash of Clans by Supercell
 Built with Python and Pygame
 
 ---
+
 
 **Enjoy building your base and crushing your opponent! 🏰⚔️**
